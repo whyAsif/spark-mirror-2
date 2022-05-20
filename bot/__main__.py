@@ -45,7 +45,7 @@ def stats(update, context):
             f'<b>├  🎮 Rᴀᴍ : {memory}%</b>\n' \
             f'<b>├  💽 Dɪsᴋ : {disk}%</b>\n' \
             f'<b>│</b>\n' \
-            f'<b>╰──《 ☣️ @SparkXcloud ☣️ 》</b>'
+            f'<b>╰──《 ☣️ by-@lived_enough ☣️ 》</b>'
     update.effective_message.reply_photo(IMAGE_URL, stats, parse_mode=ParseMode.HTML)
 
 
@@ -64,7 +64,7 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
         else :
             sendMarkup(start_string, context.bot, update, reply_markup)
     else :
-        sendMarkup(f"Oops! not a Authorized user.\nPlease deploy your own <b>SparkXcloud-Gdrive-MirrorBot</b>.", context.bot, update, reply_markup)
+        sendMarkup(f"Oops! not a Authorized user.\nPlease deploy your own <b>Bot</b>.", context.bot, update, reply_markup)
 
 
 def restart(update, context):
@@ -178,7 +178,7 @@ def bot_help(update, context):
 
 /{BotCommands.PingCommand}: Check how long it takes to Ping the Bot
 
-/{BotCommands.TsHelpCommand}: Get help for Torrent search module
+
 '''
 
     if CustomFilters.sudo_user(update) or CustomFilters.owner_filter(update):
@@ -206,16 +206,13 @@ botcmds = [
         (f'{BotCommands.PingCommand}','Ping the Bot'),
         (f'{BotCommands.RestartCommand}','Restart the bot [owner/sudo only]'),
         (f'{BotCommands.LogCommand}','Get the Bot Log [owner/sudo only]'),
-        (f'{BotCommands.TsHelpCommand}','Get help for Torrent search module')
     ]
 
 
 def main():
     fs_utils.start_cleanup()
 
-    if IS_VPS:
-        asyncio.get_event_loop().run_until_complete(start_server_async(SERVER_PORT))
-
+    
     # Check if the bot is restarting
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
