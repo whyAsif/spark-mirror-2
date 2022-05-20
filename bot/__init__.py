@@ -8,7 +8,7 @@ import string
 import subprocess
 
 import aria2p
-import qbittorrentapi as qba
+
 import telegram.ext as tg
 from dotenv import load_dotenv
 from pyrogram import Client
@@ -69,15 +69,6 @@ aria2 = aria2p.API(
     )
 )
 
-
-def get_client() -> qba.TorrentsAPIMixIn:
-    qb_client = qba.Client(host="localhost", port=8090, username="admin", password="adminadmin")
-    try:
-        qb_client.auth_log_in()
-        qb_client.application.set_preferences({"disk_cache":64, "incomplete_files_ext":True, "max_connec":3000, "max_connec_per_torrent":300, "async_io_threads":8, "preallocate_all":True, "upnp":True, "dl_limit":-1, "up_limit":-1, "dht":True, "pex":True, "lsd":True, "encryption":0, "queueing_enabled":True, "max_active_downloads":15, "max_active_torrents":50, "dont_count_slow_torrents":True, "bittorrent_protocol":0, "recheck_completed_torrents":True, "enable_multi_connections_from_same_ip":True, "slow_torrent_dl_rate_threshold":100,"slow_torrent_inactive_timer":600})
-        return qb_client
-    except qba.LoginFailed as e:
-        LOGGER.error(str(e))
         return None
 
 
@@ -173,27 +164,6 @@ telegraph = Telegraph()
 telegraph.create_account(short_name=sname)
 telegraph_token = telegraph.get_access_token()
 
-try:
-    STATUS_LIMIT = getConfig('STATUS_LIMIT')
-    if len(STATUS_LIMIT) == 0:
-        raise KeyError
-    STATUS_LIMIT = int(getConfig('STATUS_LIMIT'))
-except KeyError:
-    STATUS_LIMIT = None
-try:
-    MEGA_API_KEY = getConfig('MEGA_API_KEY')
-except KeyError:
-    logging.warning('MEGA API KEY not provided!')
-    MEGA_API_KEY = None
-try:
-    MEGA_EMAIL_ID = getConfig('MEGA_EMAIL_ID')
-    MEGA_PASSWORD = getConfig('MEGA_PASSWORD')
-    if 0 in (len(MEGA_EMAIL_ID), len(MEGA_PASSWORD)):
-        raise KeyError
-except KeyError:
-    logging.warning('MEGA Credentials not provided!')
-    MEGA_EMAIL_ID = None
-    MEGA_PASSWORD = None
 try:
     HEROKU_API_KEY = getConfig('HEROKU_API_KEY')
 except KeyError:
@@ -329,20 +299,6 @@ try:
 except KeyError:
     logging.warning('BASE_URL_OF_BOT not provided!')
     BASE_URL = None
-
-try:
-    IS_VPS = getConfig('IS_VPS')
-    IS_VPS = IS_VPS.lower() == 'true'
-except KeyError:
-    IS_VPS = False
-
-try:
-    SERVER_PORT = getConfig('SERVER_PORT')
-    if len(SERVER_PORT) == 0:
-        SERVER_PORT = None
-except KeyError:
-    logging.warning('SERVER_PORT not provided!')
-    SERVER_PORT = None
 
 try:
     TOKEN_PICKLE_URL = getConfig('TOKEN_PICKLE_URL')
